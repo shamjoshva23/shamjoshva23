@@ -1,16 +1,24 @@
-## Hi there 👋
+import cv2
 
-<!--
-**shamjoshva23/shamjoshva23** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.
+# Open the webcam
+cap = cv2.VideoCapture(0)
 
-Here are some ideas to get you started:
+# Define video codec and output file
+fourcc = cv2.VideoWriter_fourcc(*'XVID')
+out = cv2.VideoWriter('recorded_video.avi', fourcc, 20.0, (640, 480))
 
-- 🔭 I’m currently working on ...
-- 🌱 I’m currently learning ...
-- 👯 I’m looking to collaborate on ...
-- 🤔 I’m looking for help with ...
-- 💬 Ask me about ...
-- 📫 How to reach me: ...
-- 😄 Pronouns: ...
-- ⚡ Fun fact: ...
--->
+print("Recording... Press 'q' to stop.")
+
+while cap.isOpened():
+    ret, frame = cap.read()
+    if ret:
+        out.write(frame)
+        cv2.imshow('Recording - Press q to stop', frame)
+        if cv2.waitKey(1) & 0xFF == ord('q'):
+            break
+    else:
+        break
+
+cap.release()
+out.release()
+cv2.destroyAllWindows()
